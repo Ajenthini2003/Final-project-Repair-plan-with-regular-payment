@@ -1,8 +1,7 @@
-import { useApp } from "../contexts/AppContext"; // simplified path
-import Card from "../components/Card";
-import CardBody from "../components/CardBody";
-import Button from "../components/Button";
-import { Bell, Check } from "../components/Icons";
+import { useApp } from "../contexts/AppContext";
+import { Card, CardContent, CardHeader } from "../components/ui/card"; // ✅ CardContent instead of CardBody
+import { Button } from "../components/ui/button";
+import { Bell, Check } from 'lucide-react';
 import { format } from "date-fns";
 
 export default function Notifications() {
@@ -44,7 +43,7 @@ export default function Notifications() {
               className={`cursor-pointer ${!n.read ? 'bg-blue-50 border-blue-200' : ''}`}
               onClick={() => handleMarkRead(n.id)}
             >
-              <CardBody className="p-4 flex items-start gap-4">
+              <CardContent className="p-4 flex items-start gap-4"> {/* ✅ changed from CardBody */}
                 <div
                   className={`p-2 rounded-lg ${
                     n.type === 'service'
@@ -73,7 +72,7 @@ export default function Notifications() {
                 </div>
 
                 {!n.read && <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>}
-              </CardBody>
+              </CardContent>
             </Card>
           ))
         ) : (

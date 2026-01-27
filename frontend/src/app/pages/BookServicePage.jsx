@@ -20,7 +20,7 @@ import { Calendar, Clock } from "lucide-react";
 import { toast } from "sonner";
 
 
-export function BookServicePage() {
+export  default function BookServicePage() {
   const { user, plans, subscribedPlans, addBooking } = useApp();
   const navigate = useNavigate();
 

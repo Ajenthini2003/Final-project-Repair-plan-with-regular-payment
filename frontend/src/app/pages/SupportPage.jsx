@@ -1,40 +1,34 @@
 import { useState } from 'react';
 import { useApp } from '../contexts/AppContext';
-import Card from '../components/Card';
-import CardHeader from '../components/CardHeader';
-import CardTitle from '../components/CardTitle';
-import CardBody from '../components/CardBody';
-import Button from '../components/Button';
-import Input from '../components/Input';
-import Textarea from '../components/Textarea';
-import Label from '../components/Label';
-import Accordion from '../components/Accordion';
-import AccordionItem from '../components/AccordionItem';
-import AccordionTrigger from '../components/AccordionTrigger';
-import AccordionContent from '../components/AccordionContent';
-import { MessageCircle, Phone, Mail, HelpCircle, Send } from '../components/Icons';
+import { Card, CardHeader, CardContent, CardTitle } from '../components/ui/card'; // CardContent instead of CardBody
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Textarea } from '../components/ui/textarea';
+import { Label } from '../components/ui/label';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../components/ui/accordion'; // ✅ named imports
+import { MessageCircle, Phone, Mail, HelpCircle, Send } from 'lucide-react';
 import { toast } from 'sonner';
 
 const faqs = [
   {
     category: 'General',
     questions: [
-      { q: 'How do I book a repair service?', a: 'Go to "Book Service" from the dashboard, select your plan, choose a date and time, describe the issue, and submit. A technician will be assigned to you.' },
-      { q: 'What areas do you cover in Sri Lanka?', a: 'We provide services across major cities including Colombo, Kandy, Galle, Jaffna, and surrounding areas. Contact us to check availability in your area.' },
+      { q: 'How do I book a repair service?', a: 'Go to "Book Service" from the dashboard...' },
+      { q: 'What areas do you cover in Sri Lanka?', a: 'We provide services across major cities...' },
     ],
   },
   {
     category: 'Plans & Pricing',
     questions: [
-      { q: 'Can I cancel my subscription anytime?', a: 'Yes, you can cancel at any time. Access remains until the end of your current billing period.' },
-      { q: 'What payment methods do you accept?', a: 'We accept credit/debit cards, eZ Cash, mCash, and bank transfers.' },
-      { q: 'Is there a warranty on repairs?', a: 'All repairs come with a 30-day warranty. Premium plan members get a 90-day warranty.' },
+      { q: 'Can I cancel my subscription anytime?', a: 'Yes, you can cancel at any time...' },
+      { q: 'What payment methods do you accept?', a: 'We accept credit/debit cards, eZ Cash...' },
+      { q: 'Is there a warranty on repairs?', a: 'All repairs come with a 30-day warranty...' },
     ],
   },
   {
     category: 'Technical',
     questions: [
-      { q: 'How quickly can a technician arrive?', a: 'For emergency services, we aim to arrive within 2-4 hours. Regular services can be scheduled at your convenience.' },
+      { q: 'How quickly can a technician arrive?', a: 'For emergency services, we aim to arrive within 2-4 hours.' },
       { q: 'Are technicians verified?', a: 'Yes, all our technicians are background-checked, trained, and certified.' },
     ],
   },
@@ -69,33 +63,33 @@ export default function SupportPage() {
       {/* Quick Contact */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="hover:shadow-lg transition cursor-pointer" onClick={handleWhatsApp}>
-          <CardBody className="text-center pt-6">
+          <CardContent className="text-center pt-6">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <MessageCircle className="w-8 h-8 text-green-600" />
             </div>
             <h3 className="font-semibold mb-2">WhatsApp</h3>
             <p className="text-sm text-gray-600">Chat with us on WhatsApp</p>
-          </CardBody>
+          </CardContent>
         </Card>
 
         <Card className="hover:shadow-lg transition">
-          <CardBody className="text-center pt-6">
+          <CardContent className="text-center pt-6">
             <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Phone className="w-8 h-8 text-blue-600" />
             </div>
             <h3 className="font-semibold mb-2">Call Us</h3>
             <p className="text-sm text-gray-600">+94 11 234 5678</p>
-          </CardBody>
+          </CardContent>
         </Card>
 
         <Card className="hover:shadow-lg transition">
-          <CardBody className="text-center pt-6">
+          <CardContent className="text-center pt-6">
             <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Mail className="w-8 h-8 text-purple-600" />
             </div>
             <h3 className="font-semibold mb-2">Email</h3>
             <p className="text-sm text-gray-600">support@fixmate.lk</p>
-          </CardBody>
+          </CardContent>
         </Card>
       </div>
 
@@ -104,7 +98,7 @@ export default function SupportPage() {
         <CardHeader>
           <CardTitle>Submit a Support Request</CardTitle>
         </CardHeader>
-        <CardBody>
+        <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label>Email</Label>
@@ -143,7 +137,7 @@ export default function SupportPage() {
               Submit Request
             </Button>
           </form>
-        </CardBody>
+        </CardContent>
       </Card>
 
       {/* FAQ */}
@@ -154,7 +148,7 @@ export default function SupportPage() {
             <CardTitle>Frequently Asked Questions</CardTitle>
           </div>
         </CardHeader>
-        <CardBody>
+        <CardContent>
           {faqs.map((category, catIdx) => (
             <div key={catIdx} className="mb-6 last:mb-0">
               <h3 className="font-semibold text-lg mb-3 text-blue-600">{category.category}</h3>
@@ -168,7 +162,7 @@ export default function SupportPage() {
               </Accordion>
             </div>
           ))}
-        </CardBody>
+        </CardContent>
       </Card>
     </div>
   );

@@ -30,7 +30,7 @@ import {
 import { format } from "date-fns";
 
 
-export function Dashboard() {
+export default function Dashboard() {
   const { user, bookings, payments, notifications, plans, subscribedPlans } = useApp();
   const { t } = useLanguage();
   const navigate = useNavigate();

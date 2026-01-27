@@ -1,11 +1,8 @@
 import { useApp } from '../contexts/AppContext';
-import Card from '../components/Card';
-import CardHeader from '../components/CardHeader';
-import CardTitle from '../components/CardTitle';
-import CardBody from '../components/CardBody';
-import Button from '../components/Button';
-import Badge from '../components/Badge';
-import { Download, Star, Calendar, User, FileText } from '../components/common/Icons';
+import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Badge } from '../components/ui/badge';
+import { Download, Star, Calendar, User, FileText } from "lucide-react";
 
 export default function ServiceHistory() {
   const { bookings, plans } = useApp();
@@ -33,26 +30,26 @@ export default function ServiceHistory() {
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
-          <CardBody className="pt-6">
+          <CardContent className="pt-6">
             <p className="text-sm text-gray-600">Total Services</p>
             <p className="text-3xl font-bold">{bookings.length}</p>
-          </CardBody>
+          </CardContent>
         </Card>
 
         <Card>
-          <CardBody className="pt-6">
+          <CardContent className="pt-6">
             <p className="text-sm text-gray-600">Completed</p>
             <p className="text-3xl font-bold">{completedBookings.length}</p>
-          </CardBody>
+          </CardContent>
         </Card>
 
         <Card>
-          <CardBody className="pt-6">
+          <CardContent className="pt-6">
             <p className="text-sm text-gray-600">Pending</p>
             <p className="text-3xl font-bold">
               {bookings.filter((b) => b.status === 'pending').length}
             </p>
-          </CardBody>
+          </CardContent>
         </Card>
       </div>
 
@@ -61,7 +58,7 @@ export default function ServiceHistory() {
         <CardHeader>
           <CardTitle>All Services</CardTitle>
         </CardHeader>
-        <CardBody>
+        <CardContent>
           {bookings.length > 0 ? (
             <div className="space-y-4">
               {bookings.map((booking) => {
@@ -149,7 +146,7 @@ export default function ServiceHistory() {
               <p className="text-gray-600">No service history yet</p>
             </div>
           )}
-        </CardBody>
+        </CardContent>
       </Card>
     </div>
   );

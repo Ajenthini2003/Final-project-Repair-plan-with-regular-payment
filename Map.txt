@@ -1,0 +1,138 @@
+Final-project-Re...
+├── backend/
+│   ├── controllers/
+│   │   ├── authController.js
+│   │   ├── paymentController.js
+│   │   ├── planController.js
+│   │   └── subscriptionController.js
+│   ├── middleware/
+│   │   ├── authMiddleware.js
+│   │   └── errorHandler.js
+│   ├── models/
+│   │   ├── Booking.js
+│   │   ├── Notification.js
+│   │   ├── Payment.js
+│   │   ├── Plan.js
+│   │   ├── Service.js
+│   │   ├── Technician.js
+│   │   └── User.js
+│   ├── node_modules/
+│   └── routes/
+│       ├── auth.js
+│       ├── bookings.js
+│       ├── notifications.js
+│       ├── payments.js
+│       ├── plans.js
+│       ├── services.js
+│       ├── technicians.js
+│       └── users.js
+├── frontend/
+├── .env
+├── package-lock.json    (M - Modified)
+├── package.json         (M - Modified)
+├── seedPlans.js         (U - Unmodified/Untracked)
+├── server.js            (M - Modified)
+└── test.js              (U - Unmodified/Untracked)
+
+
+
+
+
+
+
+
+frontend/
+└── src/
+    ├── api.js
+    │
+    ├── app/
+    │   ├── App.jsx
+    │   │
+    │   ├── components/
+    │   │   ├── DashboardLayout.jsx
+    │   │   ├── service-category.jsx
+    │   │   │
+    │   │   ├── media/
+    │   │   │   └── ImageWithFallback.jsx
+    │   │   │
+    │   │   └── ui/
+    │   │       ├── accordion.jsx
+    │   │       ├── alert.jsx
+    │   │       ├── alert-dialog.jsx
+    │   │       ├── aspect-ratio.jsx
+    │   │       ├── avatar.jsx
+    │   │       ├── badge.jsx
+    │   │       ├── breadcrumb.jsx
+    │   │       ├── button.jsx
+    │   │       ├── calendar.jsx
+    │   │       ├── card.jsx
+    │   │       ├── carousel.jsx
+    │   │       ├── chart.jsx
+    │   │       ├── checkbox.jsx
+    │   │       ├── collapsible.jsx
+    │   │       ├── command.jsx
+    │   │       ├── context-menu.jsx
+    │   │       ├── dialog.jsx
+    │   │       ├── drawer.jsx
+    │   │       ├── dropdown-menu.jsx
+    │   │       ├── form.jsx
+    │   │       ├── hover-card.jsx
+    │   │       ├── input.jsx
+    │   │       ├── input-otp.jsx
+    │   │       ├── label.jsx
+    │   │       ├── menubar.jsx
+    │   │       ├── navigation-menu.jsx
+    │   │       ├── pagination.jsx
+    │   │       ├── popover.jsx
+    │   │       ├── progress.jsx
+    │   │       ├── radio-group.jsx
+    │   │       ├── resizable.jsx
+    │   │       ├── scroll-area.jsx
+    │   │       ├── select.jsx
+    │   │       ├── separator.jsx
+    │   │       ├── sheet.jsx
+    │   │       ├── sidebar.jsx
+    │   │       ├── skeleton.jsx
+    │   │       ├── slider.jsx
+    │   │       ├── sonner.jsx
+    │   │       ├── switch.jsx
+    │   │       ├── table.jsx
+    │   │       ├── tabs.jsx
+    │   │       ├── textarea.jsx
+    │   │       ├── toggle.java ❌ (should delete)
+    │   │       ├── tooltip.jsx
+    │   │       ├── use-mobile.jsx
+    │   │       └── utils.js
+    │   │
+    │   ├── contexts/
+    │   │   ├── AppContext.jsx
+    │   │   └── LanguageContext.jsx
+    │   │
+    │   ├── data/
+    │   │   └── service.js
+    │   │
+    │   └── pages/
+    │       ├── BookServicePage.jsx
+    │       ├── DashboardPage.jsx
+    │       ├── LandingPage.jsx
+    │       ├── LoginPage.jsx
+    │       ├── NotificationsPage.jsx
+    │       ├── OnboardingPage.jsx
+    │       ├── PaymentsPage.jsx
+    │       ├── PlansPage.jsx
+    │       ├── ProfilePage.jsx
+    │       ├── ServiceHistoryPage.jsx
+    │       ├── ServicesPage.jsx
+    │       ├── SignUpPage.jsx
+    │       ├── SupportPage.jsx
+    │       └── TechniciansPage.jsx
+    │
+    ├── lib/
+    │   └── utils.js
+    │
+    └── styles/
+        ├── (4 style files here)
+
+this is my frrontend structure . what should i do now for my backend. i finished till that.
+
+this is m frontend structure

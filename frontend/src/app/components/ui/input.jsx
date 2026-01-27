@@ -1,7 +1,8 @@
+// src/app/components/ui/input.jsx
 import React from "react";
 import { cn } from "./utils";
 
-function Input({ className, type = "text", ...props }) {
+export function Input({ className, type = "text", ...props }) {
   return (
     <input
       type={type}
@@ -20,5 +21,3 @@ function Input({ className, type = "text", ...props }) {
     />
   );
 }
-
-export { Input };

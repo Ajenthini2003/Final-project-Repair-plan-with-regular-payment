@@ -1,7 +1,8 @@
+// src/app/pages/OnboardingPage.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '/app/components/ui/button';
-import { useLanguage } from '/app/contexts/LanguageContext';
+import { Button } from '../components/ui/button';
+import { useLanguage } from '../contexts/LanguageContext';
 import { Wrench, Shield, Clock, ChevronRight, ChevronLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -27,7 +28,7 @@ const slides = [
   },
 ];
 
-export function OnboardingPage() {
+export default function OnboardingPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const navigate = useNavigate();
   const { t, language, setLanguage } = useLanguage();

@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useApp } from '/app/contexts/AppContext';
-import { Button } from '/app/components/ui/button';
-import { Input } from '/app/components/ui/input';
-import { Label } from '/app/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '/app/components/ui/card';
+import { useApp } from '../contexts/AppContext';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Wrench } from 'lucide-react';
 import { toast } from 'sonner';
+import axios from 'axios'; // <-- Import axios for backend
 
-export function SignUpPage() {
+export default function SignUpPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const { setUser } = useApp();
+  const { setUser } = useApp(); // Context to store logged-in user
   const navigate = useNavigate();
 
-  const handleSignUp = (event) => {
+  const handleSignUp = async (event) => {
     event.preventDefault();
 
     if (password !== confirmPassword) {
@@ -31,18 +32,32 @@ export function SignUpPage() {
       return;
     }
 
-    const newUser = {
-      id: `user-${Date.now()}`,
-      name,
-      email,
-      phone,
-      address: '',
-      role: 'user',
-    };
+    try {
+      // Call backend signup API
+      const res = await axios.post('http://localhost:5000/api/auth/signup', {
+        name,
+        email,
+        phone,
+        password,
+      });
 
-    setUser(newUser);
-    toast.success('Account created successfully!');
-    navigate('/dashboard');
+      toast.success(res.data.message); // "User created successfully"
+
+      // ---- AUTO LOGIN ----
+      const loginRes = await axios.post('http://localhost:5000/api/auth/login', {
+        email,
+        password,
+      });
+
+      // Save logged-in user in context
+      setUser(loginRes.data.user);
+
+      toast.success('Logged in successfully!');
+      navigate('/dashboard'); // Redirect to dashboard
+    } catch (err) {
+      console.error(err);
+      toast.error(err.response?.data?.message || 'Signup/Login failed');
+    }
   };
 
   return (

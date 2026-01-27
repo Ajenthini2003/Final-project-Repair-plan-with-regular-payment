@@ -1,11 +1,8 @@
 import { useApp } from '../contexts/AppContext';
-import Card from '../components/Card';
-import CardBody from '../components/CardBody';
-import CardHeader from '../components/CardHeader';
-import CardTitle from '../components/CardTitle';
-import Button from '../components/Button';
-import Badge from '../components/Badge';
-import { CreditCard, Download, CheckCircle, Clock, AlertCircle } from '../components/common/Icons';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Badge } from '../components/ui/badge';
+import { CreditCard, Download, CheckCircle, Clock, AlertCircle } from "lucide-react";
 import { format } from 'date-fns';
 
 export default function Payments() {
@@ -47,24 +44,24 @@ export default function Payments() {
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
-          <CardBody className="pt-6">
+          <CardContent className="pt-6">
             <p className="text-sm text-gray-600">Total Paid</p>
             <p className="text-2xl font-bold">Rs. {totalPaid.toLocaleString()}</p>
-          </CardBody>
+          </CardContent>
         </Card>
 
         <Card>
-          <CardBody className="pt-6">
+          <CardContent className="pt-6">
             <p className="text-sm text-gray-600">Pending</p>
             <p className="text-2xl font-bold">Rs. {totalPending.toLocaleString()}</p>
-          </CardBody>
+          </CardContent>
         </Card>
 
         <Card>
-          <CardBody className="pt-6">
+          <CardContent className="pt-6">
             <p className="text-sm text-gray-600">Total Transactions</p>
             <p className="text-2xl font-bold">{payments.length}</p>
-          </CardBody>
+          </CardContent>
         </Card>
       </div>
 
@@ -73,7 +70,7 @@ export default function Payments() {
         <CardHeader>
           <CardTitle>All Transactions</CardTitle>
         </CardHeader>
-        <CardBody>
+        <CardContent>
           {payments.length > 0 ? (
             <div className="space-y-3">
               {payments.map((payment) => {
@@ -119,7 +116,7 @@ export default function Payments() {
               <p className="text-gray-600">No payment history</p>
             </div>
           )}
-        </CardBody>
+        </CardContent>
       </Card>
     </div>
   );

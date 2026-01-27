@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useApp } from '/app/contexts/AppContext';
-import { useLanguage } from '/app/contexts/LanguageContext';
-import { Button } from '/app/components/ui/button';
-import { Badge } from '/app/components/ui/badge';
+import { useApp } from '../contexts/AppContext';
+import { useLanguage } from '../contexts/LanguageContext';
+import { Button } from '../components/ui/button';
+import { Badge } from '../components/ui/badge';
 import {
   LayoutDashboard,
   Package,

@@ -1,13 +1,10 @@
 import { useState } from 'react';
 import { useApp } from '../contexts/AppContext';
-import Card from '../components/Card';
-import CardHeader from '../components/CardHeader';
-import CardTitle from '../components/CardTitle';
-import CardBody from '../components/CardBody';
-import Button from '../components/Button';
-import Input from '../components/Input';
-import Label from '../components/Label';
-import { User, Mail, Phone, MapPin, Save } from '../components/common/Icons';
+import { Card, CardHeader, CardContent, CardTitle } from '../components/ui/card'; // CardContent instead of CardBody
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { User, Mail, Phone, MapPin, Save } from "lucide-react";
 import { toast } from 'sonner';
 
 export default function Profile() {
@@ -59,7 +56,7 @@ export default function Profile() {
             </Button>
           )}
         </CardHeader>
-        <CardBody className="space-y-4">
+        <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label>
               <User className="w-4 h-4 inline mr-2" />
@@ -120,7 +117,7 @@ export default function Profile() {
               </Button>
             </div>
           )}
-        </CardBody>
+        </CardContent>
       </Card>
 
       {/* Account Type */}
@@ -128,12 +125,12 @@ export default function Profile() {
         <CardHeader>
           <CardTitle>Account Type</CardTitle>
         </CardHeader>
-        <CardBody>
+        <CardContent>
           <div>
             <p className="font-medium">Current Role</p>
             <p className="text-sm text-gray-600 capitalize">{user?.role}</p>
           </div>
-        </CardBody>
+        </CardContent>
       </Card>
     </div>
   );

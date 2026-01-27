@@ -20,7 +20,7 @@ import {
 const mockTechnicians = [
   {
     id: "1",
-    name: "Nimal Silva",
+    name: "Makenthiran",
     rating: 4.8,
     reviews: 127,
     distance: "2.5 km",
@@ -32,7 +32,7 @@ const mockTechnicians = [
   },
   {
     id: "2",
-    name: "Kasun Perera",
+    name: "Thushan",
     rating: 4.9,
     reviews: 245,
     distance: "1.2 km",

@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useApp } from "@/app/contexts/AppContext";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/components/ui/card";
-import { Button } from "@/app/components/ui/button";
-import { Badge } from "@/app/components/ui/badge";
+import { useApp } from "../contexts/AppContext";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Badge } from "../components/ui/badge";
 import { CheckCircle, Sparkles } from "lucide-react";
 import { toast } from "sonner";
-import { getRepairPlans, addRepairPlan } from "../../api";
+import {
+  getRepairPlans,
+  addRepairPlan,
+  subscribeUserToPlan,
+  unsubscribeUserFromPlan
+} from "../../api";
 
-export function PlansPage() {
-  const { subscribedPlans, subscribeToPlan, unsubscribeFromPlan, user } = useApp();
+export default function PlansPage() {
+  const { subscribedPlans, setSubscribedPlans, user } = useApp();
   const [plans, setPlans] = useState([]);
 
   // Fetch plans on mount
@@ -26,15 +31,26 @@ export function PlansPage() {
   }, []);
 
   // Subscribe / unsubscribe handler
-  const handleSubscribe = (planId) => {
+  const handleSubscribe = async (planId) => {
     if (!user) return toast.error("Please login to subscribe");
 
-    if (subscribedPlans.includes(planId)) {
-      unsubscribeFromPlan(planId);
-      toast.success("Unsubscribed successfully");
-    } else {
-      subscribeToPlan(planId);
-      toast.success("Subscribed successfully!");
+    try {
+      if (subscribedPlans.includes(planId)) {
+        // Call backend to unsubscribe
+        await unsubscribeUserFromPlan(user._id, planId);
+        // Update frontend state
+        setSubscribedPlans(subscribedPlans.filter(id => id !== planId));
+        toast.success("Unsubscribed successfully");
+      } else {
+        // Call backend to subscribe
+        await subscribeUserToPlan(user._id, planId);
+        // Update frontend state
+        setSubscribedPlans([...subscribedPlans, planId]);
+        toast.success("Subscribed successfully!");
+      }
+    } catch (err) {
+      console.error("Subscription error:", err);
+      toast.error("Failed to update subscription");
     }
   };
 
@@ -46,7 +62,7 @@ export function PlansPage() {
         description: "Full service plan including all repairs",
         price: 5000,
         duration: "monthly",
-        features: ["Verified technicians", "Priority support", "Warranty coverage"],
+        services: ["Verified technicians", "Priority support", "Warranty coverage"],
       });
       const data = await getRepairPlans();
       setPlans(data);
@@ -115,10 +131,10 @@ export function PlansPage() {
 
               <CardContent className="space-y-4">
                 <div className="space-y-3">
-                  {plan.features.map((feature, i) => (
+                  {plan.services.map((service, i) => (
                     <div key={i} className="flex items-start gap-2">
                       <CheckCircle className="w-5 h-5 text-green-500 mt-0.5" />
-                      <span className="text-sm">{feature}</span>
+                      <span className="text-sm">{service}</span>
                     </div>
                   ))}
                 </div>
