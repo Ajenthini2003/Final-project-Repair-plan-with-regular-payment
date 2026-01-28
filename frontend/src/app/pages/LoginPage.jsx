@@ -9,13 +9,13 @@ import { toast } from "sonner";
 import axios from "axios";
 
 export default function LoginPage() {
-  const { setUser } = useApp(); // App context
+  const { setUser } = useApp();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
-  const [loading, setLoading] = useState(false); // prevent multiple clicks
+  const [loading, setLoading] = useState(false);
 
   // ----- AUTO LOGIN IF USER EXISTS IN LOCALSTORAGE -----
   useEffect(() => {
@@ -30,7 +30,6 @@ export default function LoginPage() {
   // ----- HANDLE LOGIN -----
   const handleLogin = async (e) => {
     e.preventDefault();
-
     if (!email || !password) {
       toast.error("Please enter both email and password");
       return;
@@ -46,9 +45,10 @@ export default function LoginPage() {
 
       console.log("Backend response:", res.data);
 
-      const userData = res.data.user;
+      // --- Fix: backend sends user fields directly, not under `user` ---
+      const userData = res.data; // <- use res.data directly
 
-      if (!userData) {
+      if (!userData || !userData._id) {
         toast.error("Login failed: no user data returned");
         return;
       }

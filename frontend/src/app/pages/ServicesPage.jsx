@@ -12,6 +12,7 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Search, Clock, DollarSign, ArrowRight } from "lucide-react";
 
+
 // 🔹 Icons (same as before)
 import {
   Zap,
@@ -27,7 +28,8 @@ import {
 } from "lucide-react";
 
 // 🔹 Backend API
-import { getServices } from "../../api/services";
+import { getServices } from "../../api";
+
 
 /* ================= CATEGORY CONFIG (UI ONLY) ================= */
 

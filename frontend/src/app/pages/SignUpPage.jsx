@@ -7,7 +7,7 @@ import { Label } from '../components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Wrench } from 'lucide-react';
 import { toast } from 'sonner';
-import axios from 'axios'; // <-- Import axios for backend
+import axios from 'axios';
 
 export default function SignUpPage() {
   const [name, setName] = useState('');
@@ -16,7 +16,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const { setUser } = useApp(); // Context to store logged-in user
+  const { setUser } = useApp();
   const navigate = useNavigate();
 
   const handleSignUp = async (event) => {
@@ -34,26 +34,22 @@ export default function SignUpPage() {
 
     try {
       // Call backend signup API
-      const res = await axios.post('http://localhost:5000/api/auth/signup', {
+      const res = await axios.post('http://localhost:5000/api/auth/register', { // <-- corrected endpoint
         name,
         email,
         phone,
         password,
       });
 
-      toast.success(res.data.message); // "User created successfully"
+      console.log("Signup response:", res.data);
+      toast.success("Account created successfully!");
 
       // ---- AUTO LOGIN ----
-      const loginRes = await axios.post('http://localhost:5000/api/auth/login', {
-        email,
-        password,
-      });
-
-      // Save logged-in user in context
-      setUser(loginRes.data.user);
+      setUser(res.data); // backend already returns user object with token
+      localStorage.setItem("user", JSON.stringify(res.data));
 
       toast.success('Logged in successfully!');
-      navigate('/dashboard'); // Redirect to dashboard
+      navigate('/dashboard');
     } catch (err) {
       console.error(err);
       toast.error(err.response?.data?.message || 'Signup/Login failed');
@@ -74,7 +70,6 @@ export default function SignUpPage() {
 
         <CardContent>
           <form onSubmit={handleSignUp} className="space-y-4">
-
             <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>
               <Input
@@ -141,7 +136,6 @@ export default function SignUpPage() {
               <span className="text-gray-600">Already have an account? </span>
               <Link to="/login" className="text-blue-600 hover:underline">Login</Link>
             </div>
-
           </form>
         </CardContent>
       </Card>
