@@ -6,7 +6,8 @@ import dotenv from "dotenv";
 // ===== IMPORT ROUTES =====
 import authRoutes from "./routes/auth.js";
 import plansRoutes from "./routes/plans.js";
-import userRoutes from "./routes/users.js"; // <-- ADD THIS
+import userRoutes from "./routes/users.js";
+import servicesRoutes from "./routes/services.js"; // ✅ ADD THIS
 
 dotenv.config();
 
@@ -22,9 +23,10 @@ app.get("/", (req, res) => {
 });
 
 // ===== API ROUTES =====
-app.use("/api/auth", authRoutes);    // Signup & Login routes
-app.use("/api/plans", plansRoutes);  // Plan CRUD routes
-app.use("/api/users", userRoutes);   // <-- ADD THIS
+app.use("/api/auth", authRoutes);
+app.use("/api/plans", plansRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/services", servicesRoutes); // ✅ ADD THIS
 
 // ===== CONNECT TO MONGODB & START SERVER =====
 const connectDB = async () => {
@@ -37,7 +39,7 @@ const connectDB = async () => {
     });
   } catch (err) {
     console.error("MongoDB connection error:", err.message);
-    process.exit(1); // Stop server if DB connection fails
+    process.exit(1);
   }
 };
 
