@@ -5,13 +5,37 @@ const API = axios.create({
   baseURL: "http://localhost:5000/api",
 });
 
+// ---------------- AUTH ----------------
+
+// Signup user
+export const signupUser = async (userData) => {
+  try {
+    const res = await API.post("/auth/signup", userData);
+    return res.data;
+  } catch (err) {
+    console.error("Error signing up:", err);
+    throw err;
+  }
+};
+
+// Login user
+export const loginUser = async (loginData) => {
+  try {
+    const res = await API.post("/auth/login", loginData);
+    return res.data;
+  } catch (err) {
+    console.error("Error logging in:", err);
+    throw err;
+  }
+};
+
 // ---------------- PLANS ----------------
 
 // Get all repair plans
 export const getRepairPlans = async () => {
   try {
     const res = await API.get("/plans");
-    return res.data; // array of plans
+    return res.data;
   } catch (err) {
     console.error("Error fetching plans:", err);
     return [];
@@ -22,7 +46,7 @@ export const getRepairPlans = async () => {
 export const addRepairPlan = async (plan) => {
   try {
     const res = await API.post("/plans", plan);
-    return res.data; // newly created plan
+    return res.data;
   } catch (err) {
     console.error("Error adding plan:", err);
     throw err;
@@ -35,7 +59,7 @@ export const addRepairPlan = async (plan) => {
 export const getServices = async () => {
   try {
     const res = await API.get("/services");
-    return res.data; // array of services
+    return res.data;
   } catch (err) {
     console.error("Error fetching services:", err);
     return [];
@@ -48,7 +72,7 @@ export const getServices = async () => {
 export const subscribeUserToPlan = async (userId, planId) => {
   try {
     const res = await API.post(`/users/${userId}/subscribe/${planId}`);
-    return res.data.subscribedPlans || []; // FIXED to return array
+    return res.data.subscribedPlans || [];
   } catch (err) {
     console.error("Error subscribing user:", err);
     throw err;
@@ -59,7 +83,7 @@ export const subscribeUserToPlan = async (userId, planId) => {
 export const unsubscribeUserFromPlan = async (userId, planId) => {
   try {
     const res = await API.post(`/users/${userId}/unsubscribe/${planId}`);
-    return res.data.subscribedPlans || []; // FIXED to return array
+    return res.data.subscribedPlans || [];
   } catch (err) {
     console.error("Error unsubscribing user:", err);
     throw err;
@@ -70,7 +94,7 @@ export const unsubscribeUserFromPlan = async (userId, planId) => {
 export const getUserSubscriptions = async (userId) => {
   try {
     const res = await API.get(`/users/${userId}/subscriptions`);
-    return res.data || []; // FIXED to return array
+    return res.data || [];
   } catch (err) {
     console.error("Error fetching user subscriptions:", err);
     return [];

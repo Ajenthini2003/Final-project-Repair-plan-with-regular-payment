@@ -6,7 +6,9 @@ import { Input } from "../components/ui/input";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/card";
 import { Wrench } from "lucide-react";
 import { toast } from "sonner";
-import axios from "axios";
+
+// ✅ USE CENTRAL API
+import { loginUser } from "../../api";
 
 export default function LoginPage() {
   const { setUser } = useApp();
@@ -30,23 +32,19 @@ export default function LoginPage() {
   // ----- HANDLE LOGIN -----
   const handleLogin = async (e) => {
     e.preventDefault();
+
     if (!email || !password) {
       toast.error("Please enter both email and password");
       return;
     }
 
     setLoading(true);
+
     try {
       console.log("Logging in:", email);
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
 
-      console.log("Backend response:", res.data);
-
-      // --- Fix: backend sends user fields directly, not under `user` ---
-      const userData = res.data; // <- use res.data directly
+      // ✅ CORRECT LOGIN CALL
+      const userData = await loginUser({ email, password });
 
       if (!userData || !userData._id) {
         toast.error("Login failed: no user data returned");
@@ -63,7 +61,7 @@ export default function LoginPage() {
       navigate("/dashboard");
     } catch (err) {
       console.error("Login error:", err);
-      toast.error(err.response?.data?.message || "Login failed. Check console.");
+      toast.error(err.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }

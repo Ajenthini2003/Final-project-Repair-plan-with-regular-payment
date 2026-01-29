@@ -18,16 +18,23 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// ===================== MIDDLEWARE =====================
+
+// ✅ FIXED CORS (Frontend connection issue solved)
+app.use(cors({
+  origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],
+  credentials: true
+}));
+
+
 app.use(express.json());
 
-// Test Route
+// ===================== TEST ROUTE =====================
 app.get("/", (req, res) => {
   res.send("Backend is running");
 });
 
-// API Routes
+// ===================== API ROUTES =====================
 app.use("/api/auth", authRoutes);
 app.use("/api/plans", plansRoutes);
 app.use("/api/users", userRoutes);
@@ -37,17 +44,19 @@ app.use("/api/technicians", technicianRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/notifications", notificationRoutes);
 
-// Error Handler
+// ===================== ERROR HANDLER ==================
 app.use(errorHandler);
 
-// Connect to MongoDB & Start Server
+// ===================== DATABASE CONNECTION =============
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
     console.log("MongoDB connected!");
 
     app.listen(process.env.PORT || 5000, () => {
-      console.log(`Server running on http://localhost:${process.env.PORT || 5000}`);
+      console.log(
+        `Server running on http://localhost:${process.env.PORT || 5000}`
+      );
     });
   } catch (err) {
     console.error("MongoDB connection error:", err.message);
@@ -55,5 +64,5 @@ const connectDB = async () => {
   }
 };
 
-// Run DB connection
+// ===================== START SERVER ====================
 connectDB();
