@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 export default function Payments() {
   const { payments, plans } = useApp();
 
+  // --- Helper to render payment status icon
   const getStatusIcon = (status) => {
     switch (status) {
       case 'paid':
@@ -19,6 +20,7 @@ export default function Payments() {
     }
   };
 
+  // --- Totals
   const totalPaid = payments
     .filter((p) => p.status === 'paid')
     .reduce((sum, p) => sum + p.amount, 0);
@@ -26,6 +28,12 @@ export default function Payments() {
   const totalPending = payments
     .filter((p) => p.status === 'pending')
     .reduce((sum, p) => sum + p.amount, 0);
+
+  // --- Download statement handler
+  const handleDownload = () => {
+    // Placeholder: replace with real download logic
+    alert('Download statement feature coming soon!');
+  };
 
   return (
     <div className="space-y-6">
@@ -35,7 +43,7 @@ export default function Payments() {
           <h1 className="text-3xl font-bold">Payment History</h1>
           <p className="text-gray-600">View and manage your payments</p>
         </div>
-        <Button variant="outline">
+        <Button variant="outline" onClick={handleDownload}>
           <Download className="w-4 h-4 mr-2" />
           Download Statement
         </Button>
@@ -78,7 +86,7 @@ export default function Payments() {
                 return (
                   <div
                     key={payment.id}
-                    className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
+                    className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 cursor-pointer"
                   >
                     <div className="flex items-center gap-4">
                       <div className="bg-blue-100 p-3 rounded-lg">
@@ -102,6 +110,7 @@ export default function Payments() {
                             ? 'secondary'
                             : 'destructive'
                         }
+                        className="text-xs"
                       >
                         {payment.status}
                       </Badge>

@@ -19,44 +19,45 @@ import { Textarea } from "../components/ui/textarea";
 import { Calendar, Clock } from "lucide-react";
 import { toast } from "sonner";
 
-
-export  default function BookServicePage() {
+export default function BookServicePage() {
   const { user, plans, subscribedPlans, addBooking } = useApp();
   const navigate = useNavigate();
 
-  const [selectedPlan, setSelectedPlan] = useState('');
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
-  const [issue, setIssue] = useState('');
+  const [selectedPlan, setSelectedPlan] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [issue, setIssue] = useState("");
 
-  const availablePlans = plans.filter((p) => subscribedPlans.includes(p.id));
+  // Use _id for filtering, because subscribedPlans comes from backend with _id
+  const availablePlans = plans.filter((p) => subscribedPlans.includes(p._id));
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!selectedPlan || !date || !time || !issue) {
-      toast.error('Please fill in all fields');
+      toast.error("Please fill in all fields");
       return;
     }
 
     if (!user) {
-      toast.error('Please login to book a service');
+      toast.error("Please login to book a service");
       return;
     }
 
     const booking = {
-      userId: user.id,
+      userId: user._id, // use _id from AppContext
       planId: selectedPlan,
-      technicianId: 'tech-1', // Mock technician
+      technicianId: "tech-1", // Mock technician
       date,
       time,
       issue,
-      status: 'pending',
+      status: "pending",
     };
 
     addBooking(booking);
-    toast.success('Service booked successfully!');
-    navigate('/dashboard');
+
+    toast.success("Service booked successfully!");
+    navigate("/dashboard");
   };
 
   if (availablePlans.length === 0) {
@@ -69,7 +70,7 @@ export  default function BookServicePage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button onClick={() => navigate('/plans')}>Browse Plans</Button>
+          <Button onClick={() => navigate("/plans")}>Browse Plans</Button>
         </CardContent>
       </Card>
     );
@@ -97,7 +98,7 @@ export  default function BookServicePage() {
               >
                 <option value="">Choose a plan...</option>
                 {availablePlans.map((plan) => (
-                  <option key={plan.id} value={plan.id}>
+                  <option key={plan._id} value={plan._id}>
                     {plan.name}
                   </option>
                 ))}
@@ -114,7 +115,7 @@ export  default function BookServicePage() {
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    min={new Date().toISOString().split('T')[0]}
+                    min={new Date().toISOString().split("T")[0]}
                     className="pl-10"
                     required
                   />

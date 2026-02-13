@@ -38,7 +38,7 @@ export default function OnboardingPage() {
     if (currentSlide < slides.length - 1) {
       setCurrentSlide(prev => prev + 1);
     } else {
-      navigate('/login');
+      navigate('/login'); // ✅ Navigate to login after last slide
     }
   };
 
@@ -52,9 +52,9 @@ export default function OnboardingPage() {
 
   return (
     <div className={`min-h-screen bg-gradient-to-br ${color} flex flex-col relative`}>
-      
+
       {/* Language Selector */}
-      <div className="absolute top-4 right-4 flex gap-2">
+      <div className="absolute top-4 right-4 flex gap-2 z-10">
         {['en', 'si', 'ta'].map(lang => (
           <button
             key={lang}
@@ -69,7 +69,7 @@ export default function OnboardingPage() {
       </div>
 
       {/* Skip Button */}
-      <div className="absolute top-4 left-4">
+      <div className="absolute top-4 left-4 z-10">
         <button
           onClick={skipOnboarding}
           className="text-white/80 text-sm hover:text-white"
@@ -79,7 +79,7 @@ export default function OnboardingPage() {
       </div>
 
       {/* Slide Content */}
-      <div className="flex-1 flex items-center justify-center p-8">
+      <div className="flex-1 flex items-center justify-center p-8 relative">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
@@ -125,7 +125,7 @@ export default function OnboardingPage() {
       </div>
 
       {/* Bottom Navigation */}
-      <div className="p-8">
+      <div className="p-8 relative z-10">
         {/* Dots Indicator */}
         <div className="flex justify-center gap-2 mb-8">
           {slides.map((_, index) => (

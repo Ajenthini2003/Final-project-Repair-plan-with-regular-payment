@@ -1,16 +1,18 @@
 import { useApp } from "../contexts/AppContext";
-import { Card, CardContent, CardHeader } from "../components/ui/card"; // ✅ CardContent instead of CardBody
+import { Card, CardContent, CardHeader } from "../components/ui/card"; // ✅ CardContent used
 import { Button } from "../components/ui/button";
-import { Bell, Check } from 'lucide-react';
+import { Bell, Check } from "lucide-react";
 import { format } from "date-fns";
 
 export default function Notifications() {
   const { notifications, markNotificationRead } = useApp();
 
+  // ----- Mark a single notification as read -----
   const handleMarkRead = (id) => {
     markNotificationRead(id);
   };
 
+  // ----- Mark all notifications as read -----
   const handleMarkAllRead = () => {
     notifications.forEach((n) => {
       if (!n.read) markNotificationRead(n.id);
@@ -21,10 +23,11 @@ export default function Notifications() {
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Notifications</h1>
-          <p className="text-gray-600">{unreadCount} unread notifications</p>
+          <p className="text-gray-600">{unreadCount} unread notification{unreadCount !== 1 ? 's' : ''}</p>
         </div>
 
         {unreadCount > 0 && (
@@ -35,6 +38,7 @@ export default function Notifications() {
         )}
       </div>
 
+      {/* Notifications List */}
       <div className="space-y-3">
         {notifications.length > 0 ? (
           notifications.map((n) => (
@@ -43,7 +47,8 @@ export default function Notifications() {
               className={`cursor-pointer ${!n.read ? 'bg-blue-50 border-blue-200' : ''}`}
               onClick={() => handleMarkRead(n.id)}
             >
-              <CardContent className="p-4 flex items-start gap-4"> {/* ✅ changed from CardBody */}
+              <CardContent className="p-4 flex items-start gap-4">
+                {/* Icon */}
                 <div
                   className={`p-2 rounded-lg ${
                     n.type === 'service'
@@ -64,6 +69,7 @@ export default function Notifications() {
                   />
                 </div>
 
+                {/* Message */}
                 <div className="flex-1">
                   <p className={`${!n.read ? 'font-semibold' : ''}`}>{n.message}</p>
                   <p className="text-sm text-gray-500 mt-1">
@@ -71,6 +77,7 @@ export default function Notifications() {
                   </p>
                 </div>
 
+                {/* Unread indicator */}
                 {!n.read && <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>}
               </CardContent>
             </Card>

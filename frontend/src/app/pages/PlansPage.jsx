@@ -36,15 +36,11 @@ export default function PlansPage() {
 
     try {
       if (subscribedPlans.includes(planId)) {
-        // Call backend to unsubscribe
         await unsubscribeUserFromPlan(user._id, planId);
-        // Update frontend state
         setSubscribedPlans(subscribedPlans.filter(id => id !== planId));
         toast.success("Unsubscribed successfully");
       } else {
-        // Call backend to subscribe
         await subscribeUserToPlan(user._id, planId);
-        // Update frontend state
         setSubscribedPlans([...subscribedPlans, planId]);
         toast.success("Subscribed successfully!");
       }
@@ -73,7 +69,6 @@ export default function PlansPage() {
     }
   };
 
-  // Convert duration for display
   const getDurationLabel = (duration) => {
     const map = { monthly: "per month", quarterly: "per 3 months", yearly: "per year" };
     return map[duration] || "";
@@ -81,6 +76,7 @@ export default function PlansPage() {
 
   return (
     <div className="space-y-6">
+
       {/* Header */}
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-3">Choose Your Repair Plan</h1>
@@ -102,9 +98,7 @@ export default function PlansPage() {
           return (
             <Card
               key={planId}
-              className={`relative ${isPopular ? "border-blue-500 border-2 shadow-lg" : ""} ${
-                isSubscribed ? "ring-2 ring-green-500" : ""
-              }`}
+              className={`relative ${isPopular ? "border-blue-500 border-2 shadow-lg" : ""} ${isSubscribed ? "ring-2 ring-green-500" : ""}`}
             >
               {isPopular && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
@@ -214,6 +208,7 @@ export default function PlansPage() {
           </Card>
         ))}
       </div>
+
     </div>
   );
 }

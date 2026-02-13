@@ -4,7 +4,7 @@ import {
   subscribeUserToPlan,
   unsubscribeUserFromPlan,
   getUserSubscriptions,
-} from "../../api"; // Make sure these are in api.js
+} from "../../api"; // ✅ Make sure api.js has these
 
 const AppContext = createContext();
 
@@ -29,13 +29,27 @@ export function AppProvider({ children }) {
     fetchPlans();
   }, []);
 
+  // ---------------- AUTO LOGIN FROM LOCALSTORAGE ----------------
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+      } catch (err) {
+        console.error("Failed to parse stored user:", err);
+        localStorage.removeItem("user");
+      }
+    }
+  }, []);
+
   // ---------------- FETCH USER SUBSCRIPTIONS ----------------
   useEffect(() => {
     const fetchSubscriptions = async () => {
-      if (!user) return;
+      if (!user?._id) return;
       try {
-        const subs = await getUserSubscriptions(user.id); // returns array of plan IDs
-        setSubscribedPlans(subs);
+        const subs = await getUserSubscriptions(user._id); // ⚡ FIXED: use _id
+        setSubscribedPlans(subs || []);
       } catch (err) {
         console.error("Failed to fetch user subscriptions:", err);
       }
@@ -45,10 +59,10 @@ export function AppProvider({ children }) {
 
   // ---------------- SUBSCRIBE TO PLAN ----------------
   const subscribeToPlan = async (planId) => {
-    if (!user) return;
+    if (!user?._id) return;
 
     try {
-      const data = await subscribeUserToPlan(user.id, planId);
+      const data = await subscribeUserToPlan(user._id, planId); // ⚡ FIXED: use _id
       setSubscribedPlans(data.subscribedPlans || []);
 
       const plan = plans.find((p) => p._id === planId || p.id === planId);
@@ -57,7 +71,7 @@ export function AppProvider({ children }) {
           ...prev,
           {
             id: `notif-${Date.now()}`,
-            userId: user.id,
+            userId: user._id,
             message: `Subscribed to ${plan.name}`,
             date: new Date().toISOString(),
             read: false,
@@ -72,10 +86,10 @@ export function AppProvider({ children }) {
 
   // ---------------- UNSUBSCRIBE FROM PLAN ----------------
   const unsubscribeFromPlan = async (planId) => {
-    if (!user) return;
+    if (!user?._id) return;
 
     try {
-      const data = await unsubscribeUserFromPlan(user.id, planId);
+      const data = await unsubscribeUserFromPlan(user._id, planId); // ⚡ FIXED: use _id
       setSubscribedPlans(data.subscribedPlans || []);
 
       const plan = plans.find((p) => p._id === planId || p.id === planId);
@@ -84,7 +98,7 @@ export function AppProvider({ children }) {
           ...prev,
           {
             id: `notif-${Date.now()}`,
-            userId: user.id,
+            userId: user._id,
             message: `Unsubscribed from ${plan.name}`,
             date: new Date().toISOString(),
             read: false,

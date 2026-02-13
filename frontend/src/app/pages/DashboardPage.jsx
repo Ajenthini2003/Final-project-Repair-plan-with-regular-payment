@@ -29,13 +29,13 @@ import {
 
 import { format } from "date-fns";
 
-
 export default function Dashboard() {
   const { user, bookings, payments, notifications, plans, subscribedPlans } = useApp();
   const { t } = useLanguage();
   const navigate = useNavigate();
 
-  const activePlans = plans.filter(plan => subscribedPlans.includes(plan.id));
+  // Fix: Use _id instead of id
+  const activePlans = plans.filter(plan => subscribedPlans.includes(plan._id));
   const upcoming = bookings.filter(b => !['completed', 'cancelled'].includes(b.status));
   const recentPayments = payments.slice(-3);
   const unreadCount = notifications.filter(n => !n.read).length;
@@ -46,6 +46,16 @@ export default function Dashboard() {
     if (hour < 17) return t('dashboard.goodAfternoon');
     return t('dashboard.goodEvening');
   };
+
+  // Helper to map status to Tailwind classes
+  const statusColorClass = (status) => {
+    switch(status) {
+      case 'paid': return 'bg-green-100 text-green-600';
+      case 'pending': return 'bg-yellow-100 text-yellow-600';
+      case 'failed': return 'bg-red-100 text-red-600';
+      default: return 'bg-gray-100 text-gray-600';
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -95,7 +105,7 @@ export default function Dashboard() {
             {activePlans.length ? (
               <div className="space-y-4">
                 {activePlans.map(plan => (
-                  <div key={plan.id} className="flex justify-between items-center p-4 border rounded-lg">
+                  <div key={plan._id} className="flex justify-between items-center p-4 border rounded-lg">
                     <div>
                       <p className="font-semibold">{plan.name}</p>
                       <p className="text-sm text-gray-600">Rs. {plan.price.toLocaleString()} / {plan.duration}</p>
@@ -131,7 +141,7 @@ export default function Dashboard() {
                     <Badge variant={b.status === 'confirmed' ? 'default' : 'secondary'} className="mt-2 text-xs">{b.status}</Badge>
                   </div>
                 ))}
-                <Link to="/bookings">
+                <Link to="/book-service">
                   <Button variant="outline" size="sm" className="w-full mt-2">
                     View All Bookings <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
@@ -155,15 +165,14 @@ export default function Dashboard() {
         <CardContent>
           {recentPayments.length ? (
             recentPayments.map(payment => {
-              const plan = plans.find(p => p.id === payment.planId);
-              const statusColor = payment.status === 'paid' ? 'green' : payment.status === 'pending' ? 'yellow' : 'red';
+              const plan = plans.find(p => p._id === payment.planId);
+              const colorClasses = statusColorClass(payment.status);
+              const Icon = payment.status === 'paid' ? CheckCircle : payment.status === 'pending' ? Clock : AlertCircle;
               return (
                 <div key={payment.id} className="flex items-center justify-between p-3 border rounded-lg">
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center bg-${statusColor}-100`}>
-                      {payment.status === 'paid' ? <CheckCircle className="w-5 h-5 text-green-600" />
-                        : payment.status === 'pending' ? <Clock className="w-5 h-5 text-yellow-600" />
-                        : <AlertCircle className="w-5 h-5 text-red-600" />}
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${colorClasses}`}>
+                      <Icon className="w-5 h-5" />
                     </div>
                     <div>
                       <p className="font-medium">{plan?.name || 'Payment'}</p>
@@ -186,7 +195,7 @@ export default function Dashboard() {
   );
 }
 
-/* --- Helper Components for Clean Code --- */
+/* --- Helper Components --- */
 function StatCard({ label, value, icon }) {
   return (
     <Card>

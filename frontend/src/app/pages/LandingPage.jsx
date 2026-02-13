@@ -1,6 +1,6 @@
 // src/app/pages/LandingPage.jsx
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../contexts/AppContext"; // <-- use hook instead of setAppUser
 
 import { Button } from "../components/ui/button";
@@ -10,17 +10,23 @@ import { Wrench, Shield, Clock, Users, CheckCircle, Star } from "lucide-react";
 
 export default function LandingPage() {
   const { setUser } = useApp(); // <-- get setUser from context
+  const navigate = useNavigate(); // ✅ add navigation
 
   // --- Demo login handler ---
   const handleDemoLogin = () => {
-    const user = {
-      id: "user-demo",
+    const demoUser = {
+      _id: "user-demo", // ✅ fix: use _id to match AppContext
       name: "Demo User",
       email: "demo@fixmate.lk",
       role: "user",
     };
-    setUser(user);
+    setUser(demoUser);
+
+    // Optional: persist demo login in localStorage
+    localStorage.setItem("user", JSON.stringify(demoUser));
+
     alert("Logged in as demo user!");
+    navigate("/dashboard"); // ✅ redirect to dashboard after login
   };
 
   const features = [

@@ -23,9 +23,14 @@ export default function LoginPage() {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      const userObj = JSON.parse(storedUser);
-      setUser(userObj);
-      navigate("/dashboard");
+      try {
+        const userObj = JSON.parse(storedUser);
+        setUser(userObj);
+        navigate("/dashboard");
+      } catch (err) {
+        console.error("Failed to parse stored user:", err);
+        localStorage.removeItem("user");
+      }
     }
   }, [setUser, navigate]);
 
@@ -43,7 +48,7 @@ export default function LoginPage() {
     try {
       console.log("Logging in:", email);
 
-      // ✅ CORRECT LOGIN CALL
+      // ✅ Correct login call
       const userData = await loginUser({ email, password });
 
       if (!userData || !userData._id) {
@@ -51,8 +56,10 @@ export default function LoginPage() {
         return;
       }
 
+      // Set user in context
       setUser(userData);
 
+      // Persist if remember me is checked
       if (remember) {
         localStorage.setItem("user", JSON.stringify(userData));
       }
@@ -65,6 +72,20 @@ export default function LoginPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // ----- DEMO LOGIN BUTTON -----
+  const handleDemoLogin = () => {
+    const demoUser = {
+      _id: "user-demo",
+      name: "Demo User",
+      email: "demo@fixmate.lk",
+      role: "user",
+    };
+    setUser(demoUser);
+    localStorage.setItem("user", JSON.stringify(demoUser));
+    toast.success("Logged in as demo user!");
+    navigate("/dashboard");
   };
 
   return (
@@ -139,6 +160,7 @@ export default function LoginPage() {
             </div>
           </form>
 
+          {/* Demo Access */}
           <div className="mt-6 text-center text-gray-500 text-xs">
             <div className="relative mb-1">
               <div className="absolute inset-0 flex items-center">
@@ -149,6 +171,9 @@ export default function LoginPage() {
               </div>
             </div>
             <p>Email: demo@fixmate.lk | Password: demo123</p>
+            <Button variant="secondary" className="mt-2" onClick={handleDemoLogin}>
+              Login as Demo User
+            </Button>
           </div>
         </CardContent>
       </Card>
